@@ -12,8 +12,9 @@
     "hbs": "^4.2.0",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "mongoose": "^6.8.4",
+    "mongodb": "^4.13.0",
+    "mongoose": "~5.9.2",
     "morgan": "~1.9.1",
-    "seedgoose": "^1.0.0"
+    "seedgoose": "^2.0.2"
   }
 }

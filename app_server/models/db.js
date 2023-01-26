@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
-const host = process.env.DB_HOST || '127.0.0.1';
-const dbURI = `mongodb://${host}/travlr`;
-const readLine = require('readLine');
+//const readLine = require('readLine');
+
+let dbURI = 'mongodb://127.0.0.1:27017/travlr';
+if(process.env.NODE_ENV === 'production')
+{
+  dbURI = process.env.DB_HOST || process.env.MONGODB_URI;
+}
 
 //avoid 'current Server Discovery and Monitoring engine is deprecated'
 mongoose.set('useUnifiedTopology', true);
@@ -9,7 +13,8 @@ mongoose.set('useUnifiedTopology', true);
 const connect = () => {
     setTimeout(() => mongoose.connect(dbURI, {
         useNewUrlParser: true,
-        useCreateIndex: true
+        useCreateIndex: true,
+        useUnifiedTopology: true,
     }), 1000);
 };
 
@@ -26,13 +31,15 @@ mongoose.connection.on('disconnected', () => {
 });
 
 if(process.platform === 'win32'){
-    const rl = readLine.createInterface ({
-        input: process.stdin,
-        output: process.stdout
-    });
-    rl.on('SIGINT', () => {
-        process.emit("SIGINT");
-    });
+    //throws error: readline.createInterface is not a function. 
+    //compiles without this code though
+    // const rl = readLine.createInterface ({
+    //     input: process.stdin,
+    //     output: process.stdout
+    // });
+    // rl.on('SIGINT', () => {
+    //     process.emit("SIGINT");
+    // });
 }
 
 const gracefulShutdown = (msg, callback) => {

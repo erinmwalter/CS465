@@ -1,6 +1,6 @@
 <div class="col-md-5">
-    <h2 class="text-center">Add Trip</h2>
-    <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <h2 class="text-center">Edit Trip</h2>
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <label>Code</label>
         <input type="text" formControlName="code" placeholder="Code" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.code.errors }">
@@ -60,4 +60,3 @@
     <button type="submit" class="btn btn-info">Save</button>
  </form>
 </div>
-   

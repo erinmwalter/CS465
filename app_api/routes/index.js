@@ -1,7 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
+const authController = require('../controllers/authentication');
 const tripsController = require('../controllers/trips');
+
+//For logging in
+router.route('/login')
+      .post(authController.login);
+router.route('/register')
+      .post(authController.register);
 
 /* GET home page. */
 router.route('/trips')

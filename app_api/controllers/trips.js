@@ -1,5 +1,31 @@
 const mongoose = require('mongoose'); //.set('debug', true);
 const Model = mongoose.model('trips');
+const User = mongoose.model('users');
+
+//Get user
+const getUser = (req,res,callback) => {
+    console.log(req.payload);
+    if(req.payload && req.payload.email) {
+        console.log("in if loop");
+        User.findOne({email: req.payload.email})
+            .exec((err,user) => {
+                if(!user) {
+                    return res
+                            .status(404)    
+                            .json({"message": "User not found"});
+                } else if (err) {
+                    console.log(error);
+                    return res.status(404).json(err);
+                }
+                callback(req,res,user.name);
+            });
+    } else {
+        console.log("in else loop");
+        return res.status(404).json({"message": "User not found"});
+    }
+};
+
+
 
 //GET: /trips - lists all the trips
 const tripsList = async (req, res) => {
@@ -39,6 +65,7 @@ const tripsFindByCode = async (req, res) => {
 
 //POST: /trips/addTrip
 const tripsAddTrip = async (req,res) => {
+    getUser(req, res, (req,res) => {
     Model
     .create({
         code: req.body.code,
@@ -61,11 +88,12 @@ const tripsAddTrip = async (req,res) => {
                 .json(trip);
         }
     });
+});
 }
 
 //PUT: /trips/:tripCode - updates single trip
 const tripsUpdateTrip = async (req, res) => {
-    console.log(req.body);
+    getUser(req, res, (req,res) => {
     Model
     .findOneAndUpdate({ 'code': req.params.tripCode }, {
         code: req.body.code,
@@ -94,6 +122,7 @@ const tripsUpdateTrip = async (req, res) => {
             .status(500) // server error
             .json(err);
             });
+        });
    }
 
 module.exports = {

@@ -6,11 +6,12 @@ import { User } from '../models/user';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [AuthenticationService]
 })
 export class LoginComponent implements OnInit {
-  public formError: string = '';
-  public credentials = { name: '', email: '', password: ''};
+  formError: string = '';
+  user:User = {name: '', password: '', email:''};
 
   constructor(private router: Router, private authenticationService: AuthenticationService) { }
 
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   public onLoginSubmit(): void {
     this.formError = '';
-    if (!this.credentials.email || !this.credentials.password) 
+    if (this.user.email === '' || this.user.password === '') 
     {
       this.formError = 'All fields are required, please try again';
     } 
@@ -29,7 +30,9 @@ export class LoginComponent implements OnInit {
   }
 
   private doLogin(): void {
-    this.authenticationService.login(this.credentials)
+    console.log("email" + this.user.email);
+    console.log("password" + this.user.password);
+    this.authenticationService.login(this.user)
             .then(() => this.router.navigateByUrl('#'))
             .catch((message) => this.formError = message);
   }

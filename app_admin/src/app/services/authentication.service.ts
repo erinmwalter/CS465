@@ -20,7 +20,7 @@ export class AuthenticationService {
  public saveToken(token: string): void {
     this.storage.setItem('travlr-token', token);
  }
- public login(user: User): Promise<any> {
+ public login(user:User): Promise<any> {
     return this.tripDataService.login(user)
           .then((authResp: AuthResponse) =>
     this.saveToken(authResp.token));

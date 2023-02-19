@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpUserEvent } from '@angular/common/http';
 import { Trip } from '../models/Trip';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
@@ -56,7 +56,7 @@ export class TripDataService {
     return Promise.reject(error.message || error);
   }
 
-  public login(user: User): Promise<AuthResponse> {
+  public login(user:User): Promise<AuthResponse> {
     return this.makeAuthApiCall('login', user);
   }
 

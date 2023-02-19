@@ -27,8 +27,10 @@ export class TripDataService {
 
   public addTrip(formData: Trip): Promise<Trip>{
     console.log('[In TripDataService.addTrip]');
+    const token = this.storage.getItem('travlr-token');
+    const headers = {'Authorization' : `Bearer ${token}`};
     //console.log(formData);
-    return this.httpClient.post(`${this.apiBaseUrl}trips/addTrip`, formData)
+    return this.httpClient.post(`${this.apiBaseUrl}trips/addTrip`, formData, {'headers': headers})
                     .toPromise()
                     .then((response:any) => response as Trip[])
                     .catch(this.handleError);
@@ -44,8 +46,10 @@ export class TripDataService {
 
   public updateTrip(formData: Trip):Promise<Trip>{
     console.log('[In TripDataService.updateTrip]');
+    const token = this.storage.getItem('travlr-token');
+    const headers = {'Authorization' : `Bearer ${token}`};
     //console.log(formData);
-    return this.httpClient.put(this.tripUrl + formData.code, formData)
+    return this.httpClient.put(this.tripUrl + formData.code, formData, {'headers': headers})
                     .toPromise()
                     .then((response:any) => response as Trip[])
                     .catch(this.handleError);

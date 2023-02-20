@@ -74,3 +74,4 @@ connect();
 
 //bring in the Moongoose schema
 require('./travlr');
+require('./user');
